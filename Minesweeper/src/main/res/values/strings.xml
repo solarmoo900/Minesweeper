@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Minesweeper</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="zero">0</string>
+    <string name="gamebutton">Game Control Button</string>
+    <string name="zoomout">Zoom Out</string>
+    <string name="zoomin">Zoom In</string>
+    <string name="newgame">New Game</string>
+    <string name="rows">Rows</string>
+    <string name="beginner">Beginner</string>
+    <string name="cols">Columns</string>
+    <string name="medium">Medium</string>
+    <string name="mine">Mines</string>
+    <string name="hard">Hard</string>
+    <string name="start">Start</string>
+
+    <string name="victory">You Have Won!</string>
+    <string name="defeat">You Have Died!</string>
+    <string name="cancel">Cancel</string>
+</resources>

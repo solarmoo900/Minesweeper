@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/controlBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/headerbackground" >
+
+
+        <TextView
+            android:id="@+id/minesRemaining"
+            android:text="@string/zero"
+            style="@style/gametextbox"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:id="@+id/time"
+            android:text="@string/zero"
+            style="@style/gametextbox"
+            android:layout_alignParentRight="true"/>
+
+        <ImageButton
+            android:id="@+id/flagButton"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/minesRemaining"
+            android:layout_alignBottom="@+id/minesRemaining"
+            android:background="@drawable/textboxes"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/gamebutton"
+            android:scaleType="fitXY"
+            android:src="@drawable/smile" />
+
+        <Space
+            android:layout_height="2dp"
+            android:layout_below="@+id/minesRemaining"
+            android:layout_width="match_parent" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/verticalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingTop="20dp"
+        android:layout_below="@id/controlBar"
+        android:layout_above="@+id/bottomSpacer">
+
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="15dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+
+            <TableLayout
+                android:id="@+id/minesweeper"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical" />
+
+            </HorizontalScrollView>
+        </ScrollView>
+
+    <Space
+        android:id="@id/bottomSpacer"
+        android:layout_height="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/zoomme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/zoomout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/btn_minus"
+            android:contentDescription="@string/zoomout" />
+        <ImageView
+            android:id="@+id/zoomin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/btn_plus"
+            android:contentDescription="@string/zoomin" />
+
+    </LinearLayout>
+</RelativeLayout>
