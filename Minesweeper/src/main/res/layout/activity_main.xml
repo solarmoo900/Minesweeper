@@ -55,9 +55,9 @@
         android:id="@+id/verticalLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/controlBar"
         android:layout_marginTop="10dp"
         android:paddingTop="20dp"
-        android:layout_below="@id/controlBar"
         android:layout_above="@+id/bottomSpacer">
 
 
@@ -65,7 +65,7 @@
             android:id="@+id/horizontalLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
             android:paddingBottom="15dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp">
@@ -74,7 +74,7 @@
             <TableLayout
                 android:id="@+id/minesweeper"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical" />
 

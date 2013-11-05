@@ -75,6 +75,8 @@ public class Minesweeper {
         createBoard();
         context.timer.setBase(SystemClock.elapsedRealtime());
         context.seconds = 0;
+        TextView time = (TextView) context.findViewById(R.id.time);
+        time.setText(Integer.toString(context.seconds));
     }
 
     /**
@@ -91,6 +93,7 @@ public class Minesweeper {
             int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                     (float) 40.0, context.getResources().getDisplayMetrics());
             TableRow.LayoutParams params = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height);
+            //TableRow.LayoutParams params = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.CENTER;
             params.setMargins(0, 0, 0, 0);
             row.setLayoutParams(params);

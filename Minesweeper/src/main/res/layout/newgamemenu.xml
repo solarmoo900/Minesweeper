@@ -146,24 +146,23 @@
 
         <Button
             android:id="@+id/begButton"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="@string/beginner"
-            android:layout_weight=".3" />
+            />
 
         <Button
             android:id="@+id/medButton"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="@string/medium"
-            android:layout_weight=".4"/>
+            />
 
         <Button
             android:id="@+id/hardButton"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="@string/hard"
-            android:layout_weight=".3"/>
+            android:text="@string/hard"/>
 
     </LinearLayout>
 </RelativeLayout>

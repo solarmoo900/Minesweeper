@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,7 +35,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //this.minesweeperGame = new Minesweeper(this, 5, 5, 2);
         addResizeButtons();
         addGameControlButton();
         prefs = getSharedPreferences(sharedprefs, MainActivity.MODE_PRIVATE);
@@ -89,8 +87,6 @@ public class MainActivity extends Activity {
                     flagButton.setImageDrawable(getResources().getDrawable(R.drawable.flag));
                 } else {
                     newGameMenu(false);
-                    //flagMode = 0;
-                    //flagButton.setImageDrawable(getResources().getDrawable(R.drawable.flag));
                 }
             }
         });
@@ -98,12 +94,12 @@ public class MainActivity extends Activity {
     }
 
     public void addResizeButtons() {
-        /*ImageView zoomOutButton = (ImageView) findViewById(R.id.zoomout);
+        ImageView zoomOutButton = (ImageView) findViewById(R.id.zoomout);
         zoomOutButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                resizeMe(1);
+                //resizeMe(1);
             }
         });
 
@@ -112,7 +108,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                resizeMe(0);
+                //resizeMe(0);
             }
         });
 
@@ -138,7 +134,7 @@ public class MainActivity extends Activity {
             }
         };
         sview.setOnTouchListener(mylistener);
-        hview.setOnTouchListener(mylistener);*/
+        hview.setOnTouchListener(mylistener);
     }
 
 
@@ -383,7 +379,9 @@ public class MainActivity extends Activity {
                 @Override
                 public void onCancel(DialogInterface dialog) {
                     if (minesweeperGame != null && minesweeperGame.gameMode != Minesweeper.ENDMODE) {
-                        timer.start();
+                        if (seconds > 0) {
+                            timer.start();
+                        }
                     } else {
                         minesweeperGame.gameMode = Minesweeper.ENDMODE;
                         flagButton.setImageDrawable(getResources().getDrawable(R.drawable.smile));
@@ -491,7 +489,9 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 if (minesweeperGame != null && minesweeperGame.gameMode != Minesweeper.ENDMODE) {
-                    timer.start();
+                    if (seconds > 0) {
+                        timer.start();
+                    }
                 }
             }
         });
@@ -515,6 +515,6 @@ public class MainActivity extends Activity {
 
         alert.show();
         this.timer.stop();
-        
+
     }
 }
