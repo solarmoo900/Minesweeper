@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,6 +28,8 @@ public class MainActivity extends Activity {
     public Minesweeper minesweeperGame;
     public final String sharedprefs = "jfminesweeper";
     public SharedPreferences prefs;
+    public Chronometer timer;
+    public int seconds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,21 @@ public class MainActivity extends Activity {
         addResizeButtons();
         addGameControlButton();
         prefs = getSharedPreferences(sharedprefs, MainActivity.MODE_PRIVATE);
+        timer = (Chronometer) findViewById(R.id.chrono);
+        final TextView time = (TextView) findViewById(R.id.time);
+        timer.setOnChronometerTickListener(
+                new Chronometer.OnChronometerTickListener(){
+
+                    @Override
+                    public void onChronometerTick(Chronometer chronometer) {
+                        if (minesweeperGame != null) {
+                            seconds++;
+                        }
+                        time.setText(Integer.toString(seconds));
+                    }}
+        );
+
+
     }
 
     @Override
@@ -46,7 +65,16 @@ public class MainActivity extends Activity {
             newGameMenu(true);
             ImageButton flagButton = (ImageButton) findViewById(R.id.flagButton);
             flagButton.setImageDrawable(getResources().getDrawable(R.drawable.smile));
+        } else if (minesweeperGame.gameMode != Minesweeper.ENDMODE) {
+            timer.start();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        timer.stop();
     }
 
     public void addGameControlButton() {
@@ -181,14 +209,12 @@ public class MainActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_newgame) {
-            //this.timer.stop();
             this.newGameMenu(false);
         }
 
-        /*if (item.getItemId() == R.id.menu_stats) {
-            this.timer.stop();
+        if (item.getItemId() == R.id.menu_statistics) {
             this.statsMenu();
-        }*/
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -356,9 +382,8 @@ public class MainActivity extends Activity {
 
                 @Override
                 public void onCancel(DialogInterface dialog) {
-                    if (minesweeperGame == null) {
-                        //TODO: restart timer
-
+                    if (minesweeperGame != null && minesweeperGame.gameMode != Minesweeper.ENDMODE) {
+                        timer.start();
                     } else {
                         minesweeperGame.gameMode = Minesweeper.ENDMODE;
                         flagButton.setImageDrawable(getResources().getDrawable(R.drawable.smile));
@@ -372,6 +397,7 @@ public class MainActivity extends Activity {
             dialog.setCancelable(false);
         }
         dialog.show();
+        timer.stop();
     }
 
 
@@ -382,9 +408,11 @@ public class MainActivity extends Activity {
         if (Constants.BEGINNER.isEqual(rows,cols,mines)) {
             SharedPreferences.Editor editor = prefs.edit();
             if (victory) {
-                // TODO: finish time running
                 int score = prefs.getInt("begWins", 0);
                 editor.putInt("begWins", ++score);
+                int prevTime = prefs.getInt("begTime", 0);
+                int time = this.seconds < prevTime || prevTime == 0 ? this.seconds : prevTime;
+                editor.putInt("begTime", time);
             } else {
                 int score = prefs.getInt("begLosses", 0);
                 editor.putInt("begLosses", ++score);
@@ -395,6 +423,9 @@ public class MainActivity extends Activity {
             if (victory) {
                 int score = prefs.getInt("medWins", 0);
                 editor.putInt("medWins", ++score);
+                int prevTime = prefs.getInt("medTime", 0);
+                int time = this.seconds < prevTime || prevTime == 0 ? this.seconds : prevTime;
+                editor.putInt("medTime", time);
             } else {
                 int score = prefs.getInt("medLosses", 0);
                 editor.putInt("medLosses", ++score);
@@ -405,6 +436,9 @@ public class MainActivity extends Activity {
             if (victory) {
                 int score = prefs.getInt("hardWins", 0);
                 editor.putInt("hardWins", ++score);
+                int prevTime = prefs.getInt("hardTime", 0);
+                int time = this.seconds < prevTime || prevTime == 0 ? this.seconds : prevTime;
+                editor.putInt("hardTime", time);
             } else {
                 int score = prefs.getInt("hardLosses", 0);
                 editor.putInt("hardLosses", ++score);
@@ -413,4 +447,73 @@ public class MainActivity extends Activity {
         }
     }
 
+
+    /**
+     * Creates an AlertDialog that shows the players statistics and creates
+     * a reset button
+     *
+     */
+    public void statsMenu() {
+        this.timer.stop();
+        LayoutInflater factory = LayoutInflater.from(this);
+        View newStatsView = factory.inflate(R.layout.stats, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(getResources().getString(R.string.stats));
+        alert.setView(newStatsView);
+
+        if (newStatsView != null) {
+            TextView begWins = (TextView) newStatsView.findViewById(R.id.begWins);
+            TextView begLosses = (TextView) newStatsView.findViewById(R.id.begLosses);
+            TextView begTime = (TextView) newStatsView.findViewById(R.id.begTime);
+
+            TextView medWins = (TextView) newStatsView.findViewById(R.id.medWins);
+            TextView medLosses = (TextView) newStatsView.findViewById(R.id.medLosses);
+            TextView medTime = (TextView) newStatsView.findViewById(R.id.medTime);
+
+            TextView hardWins = (TextView) newStatsView.findViewById(R.id.hardWins);
+            TextView hardLosses = (TextView) newStatsView.findViewById(R.id.hardLosses);
+            TextView hardTime = (TextView) newStatsView.findViewById(R.id.hardTime);
+
+            begWins.setText(Integer.toString(prefs.getInt("begWins", 0)));
+            begLosses.setText(Integer.toString(prefs.getInt("begLosses", 0)));
+            begTime.setText(Integer.toString(prefs.getInt("begTime", 0)));
+
+            medWins.setText(Integer.toString(prefs.getInt("medWins", 0)));
+            medLosses.setText(Integer.toString(prefs.getInt("medLosses", 0)));
+            medTime.setText(Integer.toString(prefs.getInt("medTime", 0)));
+
+            hardWins.setText(Integer.toString(prefs.getInt("hardWins", 0)));
+            hardLosses.setText(Integer.toString(prefs.getInt("hardLosses", 0)));
+            hardTime.setText(Integer.toString(prefs.getInt("hardTime", 0)));
+        }
+
+        alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if (minesweeperGame != null && minesweeperGame.gameMode != Minesweeper.ENDMODE) {
+                    timer.start();
+                }
+            }
+        });
+
+        alert.setNegativeButton(R.string.reset, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("begWins", 0);
+                editor.putInt("begLosses", 0);
+                editor.putInt("begTime", 0);
+                editor.putInt("medWins", 0);
+                editor.putInt("medLosses", 0);
+                editor.putInt("medTime", 0);
+                editor.putInt("hardWins", 0);
+                editor.putInt("hardLosses", 0);
+                editor.putInt("hardTime", 0);
+                editor.commit();
+            }
+        });
+
+        alert.show();
+        this.timer.stop();
+    }
 }

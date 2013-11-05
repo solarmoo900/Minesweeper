@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -72,6 +73,8 @@ public class Minesweeper {
         flagButton.setImageDrawable(context.getResources().getDrawable(R.drawable.mine));
         this.blocksLeft = (rows * cols) - mines;
         createBoard();
+        context.timer.setBase(SystemClock.elapsedRealtime());
+        context.seconds = 0;
     }
 
     /**
@@ -103,6 +106,9 @@ public class Minesweeper {
                 final int localJ = j;
                 this.board[i][j].setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
+                        if (context.seconds == 0) {
+                            context.timer.start();
+                        }
                         Result result = board[localI][localJ].hitBlock(gameMode);
                         if (result == Result.MINEHIT) {
                             showResults();
@@ -272,6 +278,8 @@ public class Minesweeper {
     }
 
     public void endGame(boolean victory) {
+        context.timer.stop();
+
         String message;
         if (victory) {
             context.gameFinished(true);
