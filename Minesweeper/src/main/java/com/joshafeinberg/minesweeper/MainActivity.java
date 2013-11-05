@@ -515,5 +515,6 @@ public class MainActivity extends Activity {
 
         alert.show();
         this.timer.stop();
+        
     }
 }
