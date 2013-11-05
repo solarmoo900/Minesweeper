@@ -75,7 +75,7 @@ public class Block extends Button {
                 mineHit();
                 return Minesweeper.Result.MINEHIT;
             }
-            if (this.status == State.FLAGGED) {
+            if (!isMine && this.status == State.FLAGGED) {
                 incorrectFlagHit();
                 return Minesweeper.Result.INCORRECTFLAG;
             }
@@ -99,31 +99,25 @@ public class Block extends Button {
     private void blockHit() {
         this.status = State.HIT;
         this.setText(this.getSurroundingString());
-        minesweeperGame.fixBlocksLeft(false);
+        minesweeperGame.fixBlocksLeft();
     }
 
     private void emptyHit() {
         this.status = State.HIT;
         this.setBackgroundResource(R.drawable.emptyblock);
         this.setText(" ");
-        minesweeperGame.fixBlocksLeft(false);
+        minesweeperGame.fixBlocksLeft();
     }
 
     private void flagHit() {
         if (this.status == State.FLAGGED) {
             this.setBackground(minesweeperGame.defaultBackground);
             this.status = State.DEFAULT;
-            if (this.isMine) {
-                minesweeperGame.fixBlocksLeft(false);
-            }
         } else {
             Drawable[] layers = {minesweeperGame.defaultBackground, minesweeperGame.myflag};
             LayerDrawable layerDrawable = new LayerDrawable(layers);
             this.setBackground(layerDrawable);
             this.status = State.FLAGGED;
-            if (this.isMine) {
-                minesweeperGame.fixBlocksLeft(true);
-            }
         }
     }
 

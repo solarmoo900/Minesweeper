@@ -17,12 +17,15 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
     public Minesweeper minesweeperGame;
+    public final String sharedprefs = "jfminesweeper";
+    public SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,7 @@ public class MainActivity extends Activity {
         //this.minesweeperGame = new Minesweeper(this, 5, 5, 2);
         addResizeButtons();
         addGameControlButton();
-
+        prefs = getSharedPreferences(sharedprefs, MainActivity.MODE_PRIVATE);
     }
 
     @Override
@@ -56,11 +59,11 @@ public class MainActivity extends Activity {
                 } else if (minesweeperGame.gameMode == Minesweeper.MINEMODE) {
                     minesweeperGame.gameMode = Minesweeper.FLAGMODE;
                     flagButton.setImageDrawable(getResources().getDrawable(R.drawable.flag));
-                } /*else {
-                    newGameMenu(true);
+                } else {
+                    newGameMenu(false);
                     //flagMode = 0;
-                    flagButton.setImageDrawable(getResources().getDrawable(R.drawable.flag));
-                }*/
+                    //flagButton.setImageDrawable(getResources().getDrawable(R.drawable.flag));
+                }
             }
         });
 
@@ -190,6 +193,8 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     /**
      * Creates the new game menu screen with buttons to increase and decrease
      * the numbers. It starts the new game and it's timer
@@ -199,7 +204,7 @@ public class MainActivity extends Activity {
     @SuppressWarnings("ConstantConditions")
     public void newGameMenu(boolean onStart) {
         LayoutInflater factory = LayoutInflater.from(this);
-        final View newGameView = factory.inflate(R.layout.newgamemenu, null);
+        View newGameView = factory.inflate(R.layout.newgamemenu, null);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("New Game");
         alert.setView(newGameView);
@@ -220,11 +225,9 @@ public class MainActivity extends Activity {
         final TextView numMines = (TextView) newGameView.findViewById(R.id.numMines);
         Button mineSub = (Button) newGameView.findViewById(R.id.minesSub);
 
-        //TODO: redo these shared prefs
-        final SharedPreferences prefs = this.getSharedPreferences("jfminesweeper", MainActivity.MODE_PRIVATE);
-        int lastRows = prefs.getInt("lastRows", Constants.BEGINNER.getRows());
-        int lastCols = prefs.getInt("lastCols", Constants.BEGINNER.getCols());
-        int lastMines = prefs.getInt("lastMines", Constants.BEGINNER.getMines());
+        int lastRows = this.prefs.getInt("lastRows", Constants.BEGINNER.getRows());
+        int lastCols = this.prefs.getInt("lastCols", Constants.BEGINNER.getCols());
+        int lastMines = this.prefs.getInt("lastMines", Constants.BEGINNER.getMines());
         numRows.setText(Integer.toString(lastRows));
         numCols.setText(Integer.toString(lastCols));
         numMines.setText(Integer.toString(lastMines));
@@ -319,27 +322,95 @@ public class MainActivity extends Activity {
         alert.setPositiveButton(R.string.start, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
-                //if (ms.isGoing) {
-                if (false) {
-                    //TODO: new gamesFinished function should be created
+                if (minesweeperGame != null) {
+                    if (minesweeperGame.gameMode != Minesweeper.ENDMODE) {
+                        gameFinished(false);
+                    }
                     minesweeperGame.clearOldGame();
                 }
                 int mines = Integer.parseInt(numMines.getText().toString());
                 int rows = Integer.parseInt(numRows.getText().toString());
                 int cols = Integer.parseInt(numCols.getText().toString());
-                /*SharedPreferences.Editor editor = prefs.edit();
+                SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("lastRows", rows);
                 editor.putInt("lastCols", cols);
                 editor.putInt("lastMines", mines);
-                editor.commit();*/
+                editor.commit();
                 minesweeperGame = new Minesweeper(myContext, rows, cols, mines);
             }
         });
 
-        alert.show();
+        final ImageButton flagButton = (ImageButton) findViewById(R.id.flagButton);
+
+        AlertDialog dialog = null;
+        if (!onStart) {
+            alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            dialog = alert.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    if (minesweeperGame == null) {
+                        //TODO: restart timer
+
+                    } else {
+                        minesweeperGame.gameMode = Minesweeper.ENDMODE;
+                        flagButton.setImageDrawable(getResources().getDrawable(R.drawable.smile));
+                    }
+                }
+            });
+        }
+
+        if (dialog == null) {
+            dialog = alert.create();
+            dialog.setCancelable(false);
+        }
+        dialog.show();
     }
 
 
-
+    public void gameFinished(boolean victory) {
+        int mines = minesweeperGame.getMines();
+        int rows = minesweeperGame.getRows();
+        int cols = minesweeperGame.getCols();
+        if (Constants.BEGINNER.isEqual(rows,cols,mines)) {
+            SharedPreferences.Editor editor = prefs.edit();
+            if (victory) {
+                // TODO: finish time running
+                int score = prefs.getInt("begWins", 0);
+                editor.putInt("begWins", ++score);
+            } else {
+                int score = prefs.getInt("begLosses", 0);
+                editor.putInt("begLosses", ++score);
+            }
+            editor.commit();
+        } else if (Constants.MEDIUM.isEqual(rows,cols,mines)) {
+            SharedPreferences.Editor editor = prefs.edit();
+            if (victory) {
+                int score = prefs.getInt("medWins", 0);
+                editor.putInt("medWins", ++score);
+            } else {
+                int score = prefs.getInt("medLosses", 0);
+                editor.putInt("medLosses", ++score);
+            }
+            editor.commit();
+        } else if (Constants.HARD.isEqual(rows,cols,mines)) {
+            SharedPreferences.Editor editor = prefs.edit();
+            if (victory) {
+                int score = prefs.getInt("hardWins", 0);
+                editor.putInt("hardWins", ++score);
+            } else {
+                int score = prefs.getInt("hardLosses", 0);
+                editor.putInt("hardLosses", ++score);
+            }
+            editor.commit();
+        }
+    }
 
 }

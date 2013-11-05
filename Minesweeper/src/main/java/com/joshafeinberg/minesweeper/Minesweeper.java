@@ -41,13 +41,17 @@ public class Minesweeper {
     public static int ENDMODE = 2;
     public static enum Result {BLOCKHIT, MINEHIT, FLAGGED, CLEARED, EMPTY, NONE, INCORRECTFLAG}
 
-    /*public int getRows() {
+    public int getRows() {
         return rows;
     }
 
     public int getCols() {
         return cols;
-    }*/
+    }
+
+    public int getMines() {
+        return mines;
+    }
 
     public Minesweeper(MainActivity context, int rows, int cols, int mines) {
         this.context = context;
@@ -110,6 +114,7 @@ public class Minesweeper {
                             updateMinesRemaing(false);
                         }
 
+                        Log.i(context.sharedprefs, "Blocks Left: " + blocksLeft);
                         if (blocksLeft == 0) {
                             endGame(true);
                         }
@@ -269,10 +274,10 @@ public class Minesweeper {
     public void endGame(boolean victory) {
         String message;
         if (victory) {
-            //TODO: Victory
+            context.gameFinished(true);
             message = this.context.getResources().getString(R.string.victory);
         } else {
-            //TODO: DEFEAT
+            context.gameFinished(false);
             message = this.context.getResources().getString(R.string.defeat);
         }
 
@@ -290,6 +295,7 @@ public class Minesweeper {
                 flagButton.setImageDrawable(context.getResources().getDrawable(R.drawable.smile));
             }
         });
+
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -300,7 +306,9 @@ public class Minesweeper {
                 flagButton.setImageDrawable(context.getResources().getDrawable(R.drawable.smile));
             }
         });
+
         dialog.show();
+
     }
 
     public void updateMinesRemaing(boolean add) {
@@ -319,12 +327,8 @@ public class Minesweeper {
         minesRemaining.setText(Integer.toString(newValue));
     }
 
-    public void fixBlocksLeft(boolean add) {
-        if (add) {
-            this.blocksLeft++;
-        } else {
-            this.blocksLeft--;
-        }
+    public void fixBlocksLeft() {
+        this.blocksLeft--;
     }
 
     public void clearOldGame() {
