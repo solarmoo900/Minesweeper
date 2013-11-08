@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -99,7 +97,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                //resizeMe(1);
+                resizeMe(1);
             }
         });
 
@@ -108,7 +106,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                //resizeMe(0);
+                resizeMe(0);
             }
         });
 
@@ -116,7 +114,7 @@ public class MainActivity extends Activity {
         final android.os.CountDownTimer cdt = new android.os.CountDownTimer(2000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                //zoom.setVisibility(View.VISIBLE);
+                zoom.setVisibility(View.VISIBLE);
             }
 
             public void onFinish() {
@@ -138,11 +136,9 @@ public class MainActivity extends Activity {
     }
 
 
-    // ToDo: This still needs a massive rewrite. Perhaps try creating static button sizes
-    /*public void resizeMe(int big) {
+    public void resizeMe(int big) {
         double resizeButton;
         double resizeText;
-        int newButtonHeight = 0;
         boolean myCondition;
         boolean isSizeChanged = false;
         if (big == 0) {
@@ -163,7 +159,6 @@ public class MainActivity extends Activity {
                 if (params != null) {
                     if (((change.getHeight() * resizeButton > 50.0) && !myCondition) || ((change.getHeight() * resizeButton < 100.0) && myCondition)) {
                         params.height = (int) (change.getHeight() * resizeButton);
-                        newButtonHeight = params.height;
                         params.width = (int) (change.getWidth() * resizeButton);
                         change.setLayoutParams(params);
                         change.setTextSize((float) (params.height * resizeText));
@@ -172,26 +167,12 @@ public class MainActivity extends Activity {
                 }
             }
         }
-        View parent = (View) minesweeperGame.board[0][0].getParent().getParent().getParent();
-        // Check for null even though it can never return null
-        if (parent == null) { return; }
-        parent.setMinimumHeight(((newButtonHeight+parent.getPaddingTop()) * minesweeperGame.getRows()));
-        parent.setPadding(parent.getPaddingLeft(),
-                parent.getPaddingTop(),
-                    //Math.abs( parent.getHeight() - ((newButtonHeight) * minesweeperGame.getRows())),
-                    parent.getPaddingRight(), parent.getPaddingBottom());
-
-        Log.i("jfminesweeper", "parent: " + parent.toString());
-        Log.i("jfminesweeper", "parent height: " + parent.getHeight());
-        Log.i("jfminesweeper", "button height: " + newButtonHeight);
-        Log.i("jfminesweeper", "paddingTop: " + parent.getPaddingTop());
-
 
         if (isSizeChanged) {
             minesweeperGame.createNewImages();
         }
 
-    }*/
+    }
 
 
 
