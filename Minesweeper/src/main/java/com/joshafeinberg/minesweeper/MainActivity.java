@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -143,12 +144,12 @@ public class MainActivity extends Activity {
         boolean isSizeChanged = false;
         if (big == 0) {
             resizeButton = 1.25;
-            resizeText = 0.3125;
+            resizeText = 0.175;
             //resizeText = 1;
             myCondition = true;
         } else {
             resizeButton = 0.8;
-            resizeText = 0.3125;
+            resizeText = 0.175;
             myCondition = false;
         }
 
@@ -178,7 +179,7 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // TODO: need to create new way to launch menu on new devices
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -197,6 +198,28 @@ public class MainActivity extends Activity {
     }
 
 
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        final ImageButton flagButton = (ImageButton) findViewById(R.id.flagButton);
+        int action = event.getAction();
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    if (minesweeperGame.gameMode == Minesweeper.FLAGMODE) {
+                        minesweeperGame.gameMode = Minesweeper.MINEMODE;
+                        flagButton.setImageDrawable(getResources().getDrawable(R.drawable.mine));
+                    } else if (minesweeperGame.gameMode == Minesweeper.MINEMODE) {
+                        minesweeperGame.gameMode = Minesweeper.FLAGMODE;
+                        flagButton.setImageDrawable(getResources().getDrawable(R.drawable.flag));
+                    }
+                }
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
+        }
+    }
 
     /**
      * Creates the new game menu screen with buttons to increase and decrease

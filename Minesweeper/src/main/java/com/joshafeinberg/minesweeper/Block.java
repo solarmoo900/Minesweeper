@@ -48,9 +48,10 @@ public class Block extends Button {
             params.gravity = Gravity.CENTER_HORIZONTAL;
             params.setMargins(-2, -2, -2, -2);
             this.setLayoutParams(params);
-            float font = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-                    (float) 15.0, a.getDisplayMetrics());
-            this.setTextSize(font);
+            /*float font = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+                    (float) 12.0, a.getDisplayMetrics());
+            this.setTextSize(font);*/
+            this.setTextSize((float) (params.height * 0.175));
         }
     }
 
@@ -83,7 +84,7 @@ public class Block extends Button {
             flagHit();
             if (this.status == State.FLAGGED) {
                 return Minesweeper.Result.CLEARED;
-            } else {
+            } else if (this.status != State.HIT) {
                 return Minesweeper.Result.FLAGGED;
             }
         }

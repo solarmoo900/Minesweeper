@@ -16,7 +16,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignBottom="@+id/rowsSub"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+        android:textColor="#FFF"/>
 
     <Button
         android:layout_width="40dp"
@@ -40,7 +41,8 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/rowsSub"
         android:layout_alignBottom="@+id/rowsSub"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textColor="#FFF"/>
 
     <Button
         android:layout_width="40dp"
@@ -60,7 +62,8 @@
         android:gravity="center_vertical"
         android:layout_below="@+id/rowsSub"
         android:layout_alignParentLeft="true"
-        android:layout_alignBottom="@+id/colsSub" />
+        android:layout_alignBottom="@+id/colsSub"
+        android:textColor="#FFF"/>
 
     <Button
         android:layout_width="40dp"
@@ -84,7 +87,8 @@
         android:layout_toRightOf="@+id/colsSub"
         android:layout_alignBottom="@+id/colsSub"
         android:gravity="center"
-        android:layout_below="@+id/rowsSub" />
+        android:layout_below="@+id/rowsSub"
+        android:textColor="#FFF"/>
 
     <Button
         android:layout_width="40dp"
@@ -104,7 +108,8 @@
         android:gravity="center_vertical"
         android:layout_below="@+id/colsSub"
         android:layout_alignParentLeft="true"
-        android:layout_alignBottom="@+id/minesSub" />
+        android:layout_alignBottom="@+id/minesSub"
+        android:textColor="#FFF"/>
 
     <Button
         android:layout_width="40dp"
@@ -128,7 +133,8 @@
         android:layout_toRightOf="@+id/minesSub"
         android:layout_alignBottom="@+id/minesSub"
         android:gravity="center"
-        android:layout_below="@+id/colsSub" />
+        android:layout_below="@+id/colsSub"
+        android:textColor="#FFF"/>
 
     <Button
         android:layout_width="40dp"
