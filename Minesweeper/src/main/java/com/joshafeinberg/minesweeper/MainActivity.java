@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -112,14 +114,17 @@ public class MainActivity extends Activity {
         });
 
         final LinearLayout zoom = (LinearLayout) findViewById(R.id.zoomme);
+        final LinearLayout settings = (LinearLayout) findViewById(R.id.settings);
         final android.os.CountDownTimer cdt = new android.os.CountDownTimer(2000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 zoom.setVisibility(View.VISIBLE);
+                settings.setVisibility(View.VISIBLE);
             }
 
             public void onFinish() {
                 zoom.setVisibility(View.GONE);
+                settings.setVisibility(View.GONE);
 
             }
         }.start();
@@ -179,9 +184,29 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // TODO: need to create new way to launch menu on new devices
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.main, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.menu_newgame) {
+                    newGameMenu(false);
+                }
+
+                if (item.getItemId() == R.id.menu_statistics) {
+                    statsMenu();
+                }
+
+                return false;
+            }
+        });
+        popup.show();
     }
 
     @Override
