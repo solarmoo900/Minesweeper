@@ -1,6 +1,7 @@
 package com.joshafeinberg.minesweeper;
 
 import android.app.AlertDialog;
+import android.app.backup.BackupManager;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
     public Minesweeper minesweeperGame;
-    public final String sharedprefs = "jfminesweeper";
+    public static String sharedprefs = "jfminesweeper";
     public SharedPreferences prefs;
     public Chronometer timer;
     public int seconds;
@@ -472,6 +473,7 @@ public class MainActivity extends Activity {
             }
             editor.commit();
         }
+        requestBackup();
     }
 
 
@@ -539,11 +541,17 @@ public class MainActivity extends Activity {
                 editor.putInt("hardLosses", 0);
                 editor.putInt("hardTime", 0);
                 editor.commit();
+                requestBackup();
             }
         });
 
         alert.show();
         this.timer.stop();
 
+    }
+
+    public void requestBackup() {
+        BackupManager bm = new BackupManager(this);
+        bm.dataChanged();
     }
 }

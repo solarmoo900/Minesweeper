@@ -12,26 +12,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
+        <TextView            
             android:id="@+id/TextView21"
             android:text="" >
         </TextView>
 
-        <TextView
+        <TextView                         
+            android:textColor="#FFFFFF"
             android:id="@+id/TextView22"
             android:text="@string/wins"
             android:textStyle="bold"
             android:typeface="serif" >
         </TextView>
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/TextView23"
             android:text="@string/losses"
             android:textStyle="bold"
             android:typeface="serif" >
         </TextView>
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/TextView24"
             android:text="@string/best_time"
             android:textStyle="bold"
@@ -45,28 +46,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/textView31"
             android:text="@string/beginner"
             android:textStyle="bold" >
         </TextView>
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/begWins"
             android:gravity="center_horizontal"
-            android:text="0" >
+            android:text="@string/zero" >
         </TextView>
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/begLosses"
             android:gravity="center_horizontal"
-            android:text="0" >
+            android:text="@string/zero" >
         </TextView>
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/begTime"
             android:gravity="center_horizontal"
-            android:text="0" >
+            android:text="@string/zero" >
         </TextView>
 
     </TableRow>
@@ -76,28 +77,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/textView41"
             android:text="@string/medium"
             android:textStyle="bold" >
         </TextView>
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/medWins"
             android:gravity="center_horizontal"
-            android:text="0" >
+            android:text="@string/zero" >
         </TextView>
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/medLosses"
             android:gravity="center_horizontal"
-            android:text="0" >
+            android:text="@string/zero" >
         </TextView>
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/medTime"
             android:gravity="center_horizontal"
-            android:text="0" >
+            android:text="@string/zero" >
         </TextView>
     </TableRow>
 
@@ -107,28 +108,28 @@
         android:layout_height="wrap_content"
         android:gravity="center" >
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/textView8"
             android:text="@string/hard"
             android:textStyle="bold" >
         </TextView>
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/hardWins"
             android:gravity="center_horizontal"
-            android:text="0" >
+            android:text="@string/zero" >
         </TextView>
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/hardLosses"
             android:gravity="center_horizontal"
-            android:text="0" >
+            android:text="@string/zero" >
         </TextView>
 
-        <TextView
+        <TextView             android:textColor="#FFFFFF"
             android:id="@+id/hardTime"
             android:gravity="center_horizontal"
-            android:text="0" >
+            android:text="@string/zero" >
         </TextView>
 
     </TableRow>

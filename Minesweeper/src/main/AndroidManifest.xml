@@ -12,7 +12,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:backupAgent="com.joshafeinberg.minesweeper.HighScoreBackup">
+        <meta-data android:name="com.google.android.backup.api_key" android:value="AEdPqrEAAAAIUuh86_asRl39huNbffJIYuQ3g8sqVcBFFMGOUA" />
+
         <activity
             android:name="com.joshafeinberg.minesweeper.MainActivity"
             android:label="@string/app_name"
