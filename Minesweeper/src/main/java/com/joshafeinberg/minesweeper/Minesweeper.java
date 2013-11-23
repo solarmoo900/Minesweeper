@@ -55,6 +55,7 @@ public class Minesweeper {
     }
 
     public Minesweeper(MainActivity context, int rows, int cols, int mines) {
+
         this.context = context;
         this.rows = rows;
         this.cols = cols;
@@ -93,14 +94,10 @@ public class Minesweeper {
             int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                     (float) 40.0, context.getResources().getDisplayMetrics());
             TableRow.LayoutParams params = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height);
-            //TableRow.LayoutParams params = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.CENTER;
             params.setMargins(0, 0, 0, 0);
             row.setLayoutParams(params);
             row.setOrientation(LinearLayout.HORIZONTAL);
-            int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                    (float) -2, context.getResources().getDisplayMetrics());
-            row.setPadding(padding, padding, padding, padding);
 
 
             for (int j = 0; j < this.cols; ++j) {
@@ -123,7 +120,7 @@ public class Minesweeper {
                             updateMinesRemaing(false);
                         }
 
-                        Log.i(context.sharedprefs, "Blocks Left: " + blocksLeft);
+                        Log.i(MainActivity.sharedprefs, "Blocks Left: " + blocksLeft);
                         if (blocksLeft == 0) {
                             endGame(true);
                         }
@@ -144,6 +141,9 @@ public class Minesweeper {
             double rando =  (((this.mines-minesCreated) / ((this.rows*this.cols)-((i * this.cols) + j)*1.0)) * 10);
             int surroundingMines = this.board[i][j].getSurrounding();
             int temp = r.nextInt(10-(surroundingMines/2));
+            Log.i("jfminesweeper", "surrounding: " + surroundingMines);
+            Log.i("jfminesweeper", "rando: " + rando);
+            Log.i("jfminesweeper", "temp: " + temp);
             if (rando >= temp ) {
                 int result = this.board[i][j].makeMine();
                 if (result == 1) {

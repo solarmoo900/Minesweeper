@@ -46,11 +46,7 @@ public class Block extends Button {
                     (float) 48.0, a.getDisplayMetrics());
             TableRow.LayoutParams params = new TableRow.LayoutParams(width, width);
             params.gravity = Gravity.CENTER_HORIZONTAL;
-            params.setMargins(-2, -2, -2, -2);
             this.setLayoutParams(params);
-            /*float font = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-                    (float) 12.0, a.getDisplayMetrics());
-            this.setTextSize(font);*/
             this.setTextSize((float) (params.height * 0.175));
         }
     }
@@ -93,12 +89,14 @@ public class Block extends Button {
 
     private void mineHit() {
         this.status = State.HIT;
-        Drawable[] layers = {minesweeperGame.defaultBackground, minesweeperGame.mymine};
+        @SuppressWarnings("ConstantConditions") Drawable emptyblock = getResources().getDrawable(R.drawable.baseblock);
+        Drawable[] layers = {emptyblock, minesweeperGame.mymine};
         LayerDrawable layerDrawable = new LayerDrawable(layers);
         this.setBackground(layerDrawable);
     }
     private void blockHit() {
         this.status = State.HIT;
+        this.setBackgroundResource(R.drawable.emptyblock);
         this.setText(this.getSurroundingString());
         minesweeperGame.fixBlocksLeft();
     }
